@@ -27,15 +27,15 @@ Because they are separate, you can change the signal without touching the engine
 The EA is a state machine with four phases:
 
 ```mermaid
-stateDiagram-v2
-    [*] --> IDLE
-    IDLE --> VIRTUAL: signal triggered
-    VIRTUAL --> VIRTUAL: virtual stop hit, start next leg in opposite direction
-    VIRTUAL --> IDLE: virtual take profit hit
-    VIRTUAL --> ARMED: required number of virtual stops reached
-    ARMED --> REAL: price returns to the origin entry
-    REAL --> REAL: stop hit, reverse order becomes the new trade
-    REAL --> IDLE: take profit, max reverses, or Friday close
+flowchart LR
+    S(( )) --> IDLE
+    IDLE -->|"signal triggered"| VIRTUAL
+    VIRTUAL -->|"virtual stop hit: next leg, opposite direction"| VIRTUAL
+    VIRTUAL -->|"virtual take profit hit"| IDLE
+    VIRTUAL -->|"required virtual stops reached"| ARMED
+    ARMED -->|"price returns to origin entry"| REAL
+    REAL -->|"stop hit: reverse order becomes the new trade"| REAL
+    REAL -->|"take profit, max reverses, or Friday close"| IDLE
 ```
 
 **IDLE:** The EA waits for a new signal.
